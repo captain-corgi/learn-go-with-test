@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -71,6 +72,14 @@ func TestAdd(t *testing.T) {
 			},
 			wantRs: 2,
 		},
+		{
+			name: "2. 2+2=4",
+			args: args{
+				a: 2,
+				b: 2,
+			},
+			wantRs: 4,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -79,4 +88,41 @@ func TestAdd(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestRepeat(t *testing.T) {
+	type args struct {
+		input       string
+		repeatCount int
+	}
+	tests := []struct {
+		name   string
+		args   args
+		wantRs string
+	}{
+		{
+			name:   "1. `a` repeated 5 times",
+			args:   args{"a", 5},
+			wantRs: "aaaaa",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotRs := Repeat(tt.args.input, tt.args.repeatCount); gotRs != tt.wantRs {
+				t.Errorf("Repeat() = %v, want %v", gotRs, tt.wantRs)
+			}
+		})
+	}
+}
+
+func BenchmarkRepeat(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Repeat("a", 5)
+	}
+}
+
+func ExampleRepeat() {
+	rs := Repeat("a", 5)
+	fmt.Println(rs)
+	// Output: aaaaa
 }

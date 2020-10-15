@@ -38,3 +38,11 @@ func Add(a, b int) (rs int) {
 	rs = a + b
 	return
 }
+
+//Repeat return a string that repeated `n` times
+func Repeat(input string, repeatCount int) (rs string) {
+	for i := 0; i < repeatCount; i++ {
+		rs += input
+	}
+	return
+}
