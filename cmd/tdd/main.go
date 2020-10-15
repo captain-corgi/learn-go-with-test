@@ -46,3 +46,32 @@ func Repeat(input string, repeatCount int) (rs string) {
 	}
 	return
 }
+
+//Sum return sum of numbers array
+func Sum(numbers []int) (rs int) {
+	for _, number := range numbers {
+		rs += number
+	}
+	return
+}
+
+//SumAll return sum of all inputs array
+func SumAll(numbersToSum ...[]int) (rs []int) {
+	for _, numbers := range numbersToSum {
+		rs = append(rs, Sum(numbers)) // NOTE: Create new slice every loop.
+	}
+	return rs
+}
+
+//SumAllTails return sum of all inputs array except first element
+func SumAllTails(numbersToSum ...[]int) (rs []int) {
+	for _, numbers := range numbersToSum {
+		if len(numbers) <= 0 {
+			rs = append(rs, 0)
+		} else {
+			tail := numbers[1:]
+			rs = append(rs, Sum(tail))
+		}
+	}
+	return rs
+}
