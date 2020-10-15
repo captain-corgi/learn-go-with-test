@@ -12,11 +12,18 @@ func TestHello(t *testing.T) {
 		want string
 	}{
 		{
-			name: "Function should return `Hello Anh Le`",
+			name: "1. Function should return `Hello Anh Le`",
 			args: args{
 				name: "Anh Le",
 			},
 			want: "Hello Anh Le",
+		},
+		{
+			name: "2. Param is empty, should return `Hello World`",
+			args: args{
+				name: "",
+			},
+			want: "Hello World",
 		},
 	}
 	for _, tt := range tests {
