@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestHello(t *testing.T) {
 	type args struct {
@@ -46,6 +48,34 @@ func TestHello(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := Hello(tt.args.name, tt.args.language); got != tt.want {
 				t.Errorf("Hello() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestAdd(t *testing.T) {
+	type args struct {
+		a int
+		b int
+	}
+	tests := []struct {
+		name   string
+		args   args
+		wantRs int
+	}{
+		{
+			name: "1. 1+1=2",
+			args: args{
+				a: 1,
+				b: 1,
+			},
+			wantRs: 2,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotRs := Add(tt.args.a, tt.args.b); gotRs != tt.wantRs {
+				t.Errorf("Add() = %v, want %v", gotRs, tt.wantRs)
 			}
 		})
 	}

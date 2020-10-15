@@ -32,3 +32,9 @@ func greetingPrefix(language string) string {
 	}
 	return prefix
 }
+
+//Add return sum of two number
+func Add(a, b int) (rs int) {
+	rs = a + b
+	return
+}
