@@ -345,46 +345,95 @@ func TestPerimeter(t *testing.T) {
 
 func TestArea(t *testing.T) {
 	type args struct {
-		rectangle Rectangle
+		shape Shape
 	}
 	tests := []struct {
-		name  string
-		args  args
-		wantA float64
+		name string
+		args args
+		want float64
 	}{
 		{
-			name: "1. Input is 0x0",
+			name: "1. Rectangle Input is 0x0",
 			args: args{
-				Rectangle{0.0, 0.0},
+				&Rectangle{0.0, 0.0},
 			},
-			wantA: 0.0,
+			want: 0.0,
 		},
 		{
-			name: "2. Input is possitive",
+			name: "2. Rectangle Input is possitive",
 			args: args{
-				Rectangle{10.0, 10.0},
+				&Rectangle{10.0, 10.0},
 			},
-			wantA: 100.0,
+			want: 100.0,
 		},
 		{
-			name: "3. Input is negative",
+			name: "3. Rectangle Input is negative",
 			args: args{
-				Rectangle{-10.0, 10.0},
+				&Rectangle{-10.0, 10.0},
 			},
-			wantA: 0,
+			want: 0,
 		},
 		{
-			name: "4. Input is negative",
+			name: "4. Rectangle Input is negative",
 			args: args{
-				Rectangle{10.0, -10.0},
+				&Rectangle{10.0, -10.0},
 			},
-			wantA: 0,
+			want: 0,
+		},
+		{
+			name: "5. Circle Input is 0",
+			args: args{
+				&Circle{0.0},
+			},
+			want: 0.0,
+		},
+		{
+			name: "6. Circle Input is possitive",
+			args: args{
+				&Circle{10.0},
+			},
+			want: 314.1592653589793,
+		},
+		{
+			name: "7. Circle Input is negative",
+			args: args{
+				&Circle{-10.0},
+			},
+			want: 0,
+		},
+		{
+			name: "8. Triangle Input is 0",
+			args: args{
+				&Triangle{0.0, 0.0},
+			},
+			want: 0.0,
+		},
+		{
+			name: "9. Triangle Input is possitive",
+			args: args{
+				&Triangle{10.0, 10.0},
+			},
+			want: 50.0,
+		},
+		{
+			name: "7. Triangle Input is negative",
+			args: args{
+				&Triangle{-10.0, 10.0},
+			},
+			want: 0,
+		},
+		{
+			name: "8. Triangle Input is negative",
+			args: args{
+				&Triangle{10.0, -10.0},
+			},
+			want: 0,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotA := Area(tt.args.rectangle); gotA != tt.wantA {
-				t.Errorf("Area() = %v, want %v", gotA, tt.wantA)
+			if got := tt.args.shape.Area(); got != tt.want {
+				t.Errorf("%#v got %.2f want %.2f", tt.args.shape, got, tt.want)
 			}
 		})
 	}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 const (
@@ -76,10 +77,49 @@ func SumAllTails(numbersToSum ...[]int) (rs []int) {
 	return rs
 }
 
-//Rectangle describe a rectangle
-type Rectangle struct {
-	Width  float64
-	Height float64
+type (
+	//Rectangle describe a rectangle
+	Rectangle struct {
+		Width  float64
+		Height float64
+	}
+	//Triangle describe a triangle
+	Triangle struct {
+		Base   float64
+		Height float64
+	}
+	//Circle describe a circle
+	Circle struct {
+		Radius float64
+	}
+	//Shape represent for a shape.
+	Shape interface {
+		Area() float64
+	}
+)
+
+//Area return Width*Height
+func (r *Rectangle) Area() float64 {
+	if r.Width <= 0 || r.Height <= 0 {
+		return 0.0
+	}
+	return r.Width * r.Height
+}
+
+//Area return Width*Height
+func (r *Triangle) Area() float64 {
+	if r.Base <= 0 || r.Height <= 0 {
+		return 0.0
+	}
+	return (r.Base * r.Height) / 2
+}
+
+//Area return Pi*Radius^2
+func (r *Circle) Area() float64 {
+	if r.Radius <= 0 {
+		return 0.0
+	}
+	return r.Radius * r.Radius * math.Pi
 }
 
 //Perimeter calculate Perimeter from given w and h
@@ -88,12 +128,4 @@ func Perimeter(rectangle Rectangle) (p float64) {
 		return 0.0
 	}
 	return 2 * (rectangle.Width + rectangle.Height)
-}
-
-//Area calculate Area from given w and h
-func Area(rectangle Rectangle) (a float64) {
-	if rectangle.Width <= 0 || rectangle.Height <= 0 {
-		return 0.0
-	}
-	return rectangle.Width * rectangle.Height
 }
