@@ -172,3 +172,64 @@ func (r *Wallet) Balance() Bitcoin {
 func (r Bitcoin) String() string {
 	return fmt.Sprintf("%d BTC", r)
 }
+
+type (
+	//Dictionary is a map with key string, value string
+	Dictionary map[string]string
+)
+
+var (
+	//ErrWordNotFound is error when a word not found in dictionary
+	ErrWordNotFound = fmt.Errorf("word not found")
+	//ErrKeyWordEmpty is error when key word is empty
+	ErrKeyWordEmpty = fmt.Errorf("word is empty")
+	//ErrKeyWordDuplicate is error when key word duplicated
+	ErrKeyWordDuplicate = fmt.Errorf("word is duplicated")
+	//ErrKeyWordNotExist is error when key word not found in dictionary for update
+	ErrKeyWordNotExist = fmt.Errorf("word not exist")
+)
+
+//Search find and return a word in a map if exist.
+func (r Dictionary) Search(word string) (string, error) {
+	if word == "" {
+		return "", ErrKeyWordEmpty
+	}
+	definition, ok := r[word]
+	if !ok {
+		return "", ErrWordNotFound
+	}
+	return definition, nil
+}
+
+//Add function append a word to dictionary
+func (r Dictionary) Add(word string, definition string) error {
+	_, err := r.Search(word)
+	switch err {
+	case ErrWordNotFound:
+		r[word] = definition
+	case nil:
+		return ErrKeyWordDuplicate
+	default:
+		return err
+	}
+	return nil
+}
+
+//Update function aupdate an existing word in dictionary
+func (r Dictionary) Update(word string, definition string) error {
+	_, err := r.Search(word)
+	switch err {
+	case ErrWordNotFound:
+		return ErrKeyWordNotExist
+	case nil:
+		r[word] = definition
+	default:
+		return err
+	}
+	return nil
+}
+
+//Delete remove a word from dictionary
+func (r Dictionary) Delete(word string) {
+	delete(r, word)
+}

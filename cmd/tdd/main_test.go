@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 	"testing"
@@ -489,5 +490,269 @@ func assertNoError(t *testing.T, gotErr error) {
 	t.Helper()
 	if gotErr != nil {
 		t.Errorf("expected no error, but got %s", gotErr.Error())
+	}
+}
+
+func TestBitcoin_String(t *testing.T) {
+	tests := []struct {
+		name string
+		r    Bitcoin
+		want string
+	}{
+		{
+			name: "Zero",
+			r:    Bitcoin(0),
+			want: "0 BTC",
+		},
+		{
+			name: "Positive",
+			r:    Bitcoin(10),
+			want: "10 BTC",
+		},
+		{
+			name: "Negative",
+			r:    Bitcoin(-10),
+			want: "-10 BTC",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.r.String(); got != tt.want {
+				t.Errorf("Bitcoin.String() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestSearch(t *testing.T) {
+	type args struct {
+		dictionary Dictionary
+		word       string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    string
+		wantErr error
+	}{
+		{
+			name: "1. TDD TC",
+			args: args{
+				dictionary: Dictionary{},
+			},
+			want: "",
+		},
+		{
+			name: "2. Word not found",
+			args: args{
+				dictionary: Dictionary{
+					"a": "this is a",
+				},
+				word: "b",
+			},
+			want:    "",
+			wantErr: errors.New("word not found"),
+		},
+		{
+			name: "3. Word found",
+			args: args{
+				dictionary: Dictionary{
+					"a": "this is a",
+				},
+				word: "a",
+			},
+			want: "this is a",
+		},
+		{
+			name: "4. Word empty",
+			args: args{
+				dictionary: Dictionary{
+					"a": "this is a",
+				},
+				word: "",
+			},
+			want:    "",
+			wantErr: ErrKeyWordEmpty,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, gotErr := tt.args.dictionary.Search(tt.args.word)
+			if got != tt.want {
+				t.Errorf("Search() = %v, want %v", got, tt.want)
+			}
+			if tt.wantErr != nil {
+				if gotErr == nil {
+					t.Errorf("Search() got err %v, want err %v", "nil", tt.wantErr.Error())
+				} else {
+					if gotErr.Error() != tt.wantErr.Error() {
+						t.Errorf("Search() got err %v, want err %v", gotErr.Error(), tt.wantErr.Error())
+					}
+				}
+			}
+		})
+	}
+}
+
+func TestDictionary_Add(t *testing.T) {
+	type args struct {
+		word       string
+		definition string
+	}
+	tests := []struct {
+		name    string
+		r       *Dictionary
+		args    args
+		wantErr error
+	}{
+		{
+			name: "1. TDD",
+			args: args{
+				word:       "a",
+				definition: "this is a",
+			},
+			r: &Dictionary{},
+		},
+		{
+			name: "2. Input word is empty",
+			args: args{
+				word:       "",
+				definition: "this is a",
+			},
+			r:       &Dictionary{},
+			wantErr: ErrKeyWordEmpty,
+		},
+		{
+			name: "3. Input word already existed",
+			args: args{
+				word:       "a",
+				definition: "this is a",
+			},
+			r: &Dictionary{
+				"a": "this is a",
+			},
+			wantErr: ErrKeyWordDuplicate,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotErr := tt.r.Add(tt.args.word, tt.args.definition)
+			if tt.wantErr != nil {
+				if gotErr == nil {
+					t.Errorf("Add() got err %v, want err %v", "nil", tt.wantErr.Error())
+				} else {
+					if gotErr.Error() != tt.wantErr.Error() {
+						t.Errorf("Add() got err %v, want err %v", gotErr.Error(), tt.wantErr.Error())
+					}
+				}
+			} else {
+				def, searchErr := tt.r.Search(tt.args.word)
+				if def != tt.args.definition || searchErr != nil {
+					t.Errorf("Incorrect added definition. Got %s, want %s", def, tt.args.definition)
+				}
+			}
+		})
+	}
+}
+
+func TestDictionary_Update(t *testing.T) {
+	type args struct {
+		word       string
+		definition string
+	}
+	tests := []struct {
+		name    string
+		r       Dictionary
+		args    args
+		wantErr error
+	}{
+		{
+			name: "1. TDD",
+			args: args{
+				word:       "",
+				definition: "",
+			},
+			r:       Dictionary{},
+			wantErr: ErrKeyWordEmpty,
+		},
+		{
+			name: "2. Word not exist",
+			args: args{
+				word:       "b",
+				definition: "this is b",
+			},
+			r: Dictionary{
+				"a": "this is a",
+			},
+			wantErr: ErrKeyWordNotExist,
+		},
+		{
+			name: "3. Word exist",
+			args: args{
+				word:       "a",
+				definition: "this is a",
+			},
+			r: Dictionary{
+				"a": "this is a",
+			},
+			wantErr: nil,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := tt.r.Update(tt.args.word, tt.args.definition); err != nil && err != tt.wantErr {
+				t.Errorf("Dictionary.Update() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
+
+func TestDictionary_Delete(t *testing.T) {
+	type args struct {
+		word string
+	}
+	tests := []struct {
+		name    string
+		r       Dictionary
+		args    args
+		wantErr error
+	}{
+		{
+			name: "1. TDD",
+			args: args{
+				word: "",
+			},
+			r:       Dictionary{},
+			wantErr: nil,
+		},
+		{
+			name: "2. Word not exist",
+			args: args{
+				word: "b",
+			},
+			r: Dictionary{
+				"a": "this is a",
+			},
+			wantErr: ErrKeyWordNotExist,
+		},
+		{
+			name: "3. Word exist",
+			args: args{
+				word: "a",
+			},
+			r: Dictionary{
+				"a": "this is a",
+			},
+			wantErr: nil,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.r.Delete(tt.args.word)
+			gotDef, _ := tt.r.Search(tt.args.word)
+			if gotDef != "" {
+				t.Errorf("word still exist, not deleted yet")
+			}
+		})
 	}
 }
