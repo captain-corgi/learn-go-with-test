@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"reflect"
@@ -754,5 +755,17 @@ func TestDictionary_Delete(t *testing.T) {
 				t.Errorf("word still exist, not deleted yet")
 			}
 		})
+	}
+}
+
+func TestGreetVN(t *testing.T) {
+	buffer := bytes.Buffer{}
+	GreetVN(&buffer, "Anh")
+
+	got := buffer.String()
+	want := "Chao Anh"
+
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
 	}
 }

@@ -3,16 +3,29 @@ package main
 import (
 	"errors"
 	"fmt"
+	"io"
 	"math"
+	"net/http"
 )
 
 const (
-	englishHelloPrefix    = "Hello %s"
-	vietnameseHelloPrefix = "Chao %s"
+	englishHelloPrefix    = "Hello %s\n"
+	vietnameseHelloPrefix = "Chao %s\n"
 )
 
 func main() {
-	fmt.Println(Hello("World", "VI"))
+	http.ListenAndServe(":8080", http.HandlerFunc(MyGreetHandler))
+}
+
+//MyGreetHandler is a simple http handler
+func MyGreetHandler(w http.ResponseWriter, r *http.Request) {
+	GreetVN(w, "Anh")
+}
+
+//GreetVN say hello in Vietnamese
+func GreetVN(writer io.Writer, name string) {
+	str := Hello(name, "VI")
+	fmt.Fprintf(writer, str)
 }
 
 //Hello return "Hello World" string
