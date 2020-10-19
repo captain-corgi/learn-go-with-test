@@ -438,3 +438,56 @@ func TestArea(t *testing.T) {
 		})
 	}
 }
+
+func TestWallet(t *testing.T) {
+	t.Run("Deposit", func(t *testing.T) {
+		wallet := Wallet{}
+		wallet.Deposit(Bitcoin(10))
+
+		assertBalance(t, wallet, Bitcoin(10))
+	})
+	t.Run("Withdraw", func(t *testing.T) {
+		wallet := Wallet{Bitcoin(20)}
+		gotErr := wallet.Widthdraw(Bitcoin(10))
+
+		assertBalance(t, wallet, Bitcoin(10))
+		assertNoError(t, gotErr)
+	})
+	t.Run("Withdraw insufficient funds", func(t *testing.T) {
+		startingAmt := Bitcoin(20)
+		wallet := Wallet{startingAmt}
+
+		wantAmt := Bitcoin(20)
+		wantErr := ErrInsufficientFunds
+
+		gotErr := wallet.Widthdraw(Bitcoin(200))
+
+		assertBalance(t, wallet, wantAmt)
+		assertError(t, gotErr, wantErr)
+	})
+}
+
+func assertBalance(t *testing.T, wallet Wallet, want Bitcoin) {
+	t.Helper()
+	got := wallet.Balance()
+	if got != want {
+		t.Errorf("got %s, want %s", got, want)
+	}
+}
+
+func assertError(t *testing.T, gotErr error, wantErr error) {
+	t.Helper()
+	if gotErr == nil {
+		t.Errorf("expected error, but got nil")
+	}
+	if gotErr.Error() != wantErr.Error() {
+		t.Errorf("got %s, want %s", gotErr.Error(), wantErr.Error())
+	}
+}
+
+func assertNoError(t *testing.T, gotErr error) {
+	t.Helper()
+	if gotErr != nil {
+		t.Errorf("expected no error, but got %s", gotErr.Error())
+	}
+}

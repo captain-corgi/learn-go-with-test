@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"math"
 )
@@ -128,4 +129,46 @@ func Perimeter(rectangle Rectangle) (p float64) {
 		return 0.0
 	}
 	return 2 * (rectangle.Width + rectangle.Height)
+}
+
+type (
+	//Wallet describe a wallet with balance
+	Wallet struct {
+		balance Bitcoin
+	}
+	//Bitcoin currency, data type is int
+	Bitcoin int
+)
+
+//Stringer override .String() method
+type Stringer interface {
+	String() string
+}
+
+var (
+	//ErrInsufficientFunds is error when amount not enough for withdraw
+	ErrInsufficientFunds = errors.New("cannot withdraw. Insufficient funds")
+)
+
+//Deposit increase amount in wallet
+func (r *Wallet) Deposit(amount Bitcoin) {
+	r.balance += amount
+}
+
+//Widthdraw decrease amount in wallet
+func (r *Wallet) Widthdraw(amount Bitcoin) error {
+	if r.balance < amount {
+		return ErrInsufficientFunds
+	}
+	r.balance -= amount
+	return nil
+}
+
+//Balance check amount in wallet
+func (r *Wallet) Balance() Bitcoin {
+	return r.balance
+}
+
+func (r Bitcoin) String() string {
+	return fmt.Sprintf("%d BTC", r)
 }
