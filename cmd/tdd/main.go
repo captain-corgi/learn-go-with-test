@@ -75,3 +75,25 @@ func SumAllTails(numbersToSum ...[]int) (rs []int) {
 	}
 	return rs
 }
+
+//Rectangle describe a rectangle
+type Rectangle struct {
+	Width  float64
+	Height float64
+}
+
+//Perimeter calculate Perimeter from given w and h
+func Perimeter(rectangle Rectangle) (p float64) {
+	if rectangle.Width <= 0 || rectangle.Height <= 0 {
+		return 0.0
+	}
+	return 2 * (rectangle.Width + rectangle.Height)
+}
+
+//Area calculate Area from given w and h
+func Area(rectangle Rectangle) (a float64) {
+	if rectangle.Width <= 0 || rectangle.Height <= 0 {
+		return 0.0
+	}
+	return rectangle.Width * rectangle.Height
+}

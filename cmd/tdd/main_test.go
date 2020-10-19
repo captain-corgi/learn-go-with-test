@@ -6,6 +6,26 @@ import (
 	"testing"
 )
 
+func Test_main(t *testing.T) {
+	tests := []struct {
+		name string
+	}{
+		{
+			name: "main function can run",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			defer func() {
+				if r := recover(); r != nil {
+					t.Errorf("main function failed to run")
+				}
+			}()
+			main()
+		})
+	}
+}
+
 func TestHello(t *testing.T) {
 	type args struct {
 		name     string
@@ -278,6 +298,93 @@ func TestSumAll(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if gotRs := SumAll(tt.args.numbersToSum...); !reflect.DeepEqual(gotRs, tt.wantRs) {
 				t.Errorf("SumAll() = %v, want %v", gotRs, tt.wantRs)
+			}
+		})
+	}
+}
+
+func TestPerimeter(t *testing.T) {
+	type args struct {
+		rectangle Rectangle
+	}
+	tests := []struct {
+		name  string
+		args  args
+		wantP float64
+	}{
+		{
+			name: "1. Input is 0.0x0.0",
+			args: args{
+				Rectangle{0, 0},
+			},
+			wantP: 0.0,
+		},
+		{
+			name: "2. Input is possitive",
+			args: args{
+				Rectangle{10.0, 10.0},
+			},
+			wantP: 40.0,
+		},
+		{
+			name: "3. Input is negative",
+			args: args{
+				Rectangle{-10.0, -10.0},
+			},
+			wantP: 0,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotP := Perimeter(tt.args.rectangle); gotP != tt.wantP {
+				t.Errorf("Perimeter() = %v, want %v", gotP, tt.wantP)
+			}
+		})
+	}
+}
+
+func TestArea(t *testing.T) {
+	type args struct {
+		rectangle Rectangle
+	}
+	tests := []struct {
+		name  string
+		args  args
+		wantA float64
+	}{
+		{
+			name: "1. Input is 0x0",
+			args: args{
+				Rectangle{0.0, 0.0},
+			},
+			wantA: 0.0,
+		},
+		{
+			name: "2. Input is possitive",
+			args: args{
+				Rectangle{10.0, 10.0},
+			},
+			wantA: 100.0,
+		},
+		{
+			name: "3. Input is negative",
+			args: args{
+				Rectangle{-10.0, 10.0},
+			},
+			wantA: 0,
+		},
+		{
+			name: "4. Input is negative",
+			args: args{
+				Rectangle{10.0, -10.0},
+			},
+			wantA: 0,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if gotA := Area(tt.args.rectangle); gotA != tt.wantA {
+				t.Errorf("Area() = %v, want %v", gotA, tt.wantA)
 			}
 		})
 	}
