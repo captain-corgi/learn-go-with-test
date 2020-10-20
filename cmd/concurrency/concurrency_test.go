@@ -1,6 +1,8 @@
 package concurrency
 
 import (
+	"net/http"
+	"net/http/httptest"
 	"reflect"
 	"testing"
 	"time"
@@ -80,4 +82,44 @@ func BenchmarkCheckWebsites(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		CheckWebsites(slowStubWebsiteChecker, urls)
 	}
+}
+
+func TestRacer(t *testing.T) {
+	t.Run("normal case", func(t *testing.T) {
+		slowServer := makeDelayedServer(20 * time.Millisecond)
+		fastServer := makeDelayedServer(0 * time.Millisecond)
+
+		defer slowServer.Close()
+		defer fastServer.Close()
+
+		slowURL := slowServer.URL
+		fastURL := fastServer.URL
+
+		want := fastURL
+		got, gotErr := Racer(slowURL, fastURL)
+
+		if gotErr != nil {
+			t.Errorf("expected no error but got %w", gotErr)
+		}
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+	t.Run("timeout case", func(t *testing.T) {
+		timeoutServer := makeDelayedServer(2 * time.Second)
+		defer timeoutServer.Close()
+
+		_, gotErr := Racer(timeoutServer.URL, timeoutServer.URL)
+
+		if gotErr == nil {
+			t.Errorf("expected an error but got none")
+		}
+	})
+}
+
+func makeDelayedServer(delay time.Duration) *httptest.Server {
+	return httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		time.Sleep(delay)
+		rw.WriteHeader(http.StatusOK)
+	}))
 }
