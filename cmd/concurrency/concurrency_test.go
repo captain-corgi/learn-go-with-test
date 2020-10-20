@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"reflect"
+	"sync"
 	"testing"
 	"time"
 )
@@ -122,4 +123,37 @@ func makeDelayedServer(delay time.Duration) *httptest.Server {
 		time.Sleep(delay)
 		rw.WriteHeader(http.StatusOK)
 	}))
+}
+
+func TestCounter(t *testing.T) {
+	assertCounter := func(t *testing.T, counter *Counter, want int) {
+		if counter.Value() != want {
+			t.Errorf("got %d, want %d", counter.Value(), want)
+		}
+	}
+	t.Run("1. Incrementing the counter 3 times leaves it at 3 (Fixed)", func(t *testing.T) {
+		counter := NewCounter()
+		counter.Inc()
+		counter.Inc()
+		counter.Inc()
+
+		assertCounter(t, counter, 3)
+	})
+
+	t.Run("2. Incrementing the counter n times leaves it at n (Dynamic)", func(t *testing.T) {
+		wantedCounter := 1000
+		counter := NewCounter()
+
+		var wg sync.WaitGroup
+		wg.Add(wantedCounter)
+		for i := 0; i < wantedCounter; i++ {
+			go func(w *sync.WaitGroup) {
+				counter.Inc()
+				w.Done()
+			}(&wg)
+		}
+		wg.Wait()
+
+		assertCounter(t, counter, wantedCounter)
+	})
 }

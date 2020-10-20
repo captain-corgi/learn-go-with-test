@@ -3,6 +3,7 @@ package concurrency
 import (
 	"fmt"
 	"net/http"
+	"sync"
 	"time"
 )
 
@@ -59,4 +60,30 @@ func ping(url string) chan struct{} {
 		close(ch)
 	}()
 	return ch
+}
+
+type (
+	//Counter contain an integer counter
+	Counter struct {
+		mux   sync.Mutex
+		value int
+	}
+)
+
+//NewCounter return a new counter, started by 0
+func NewCounter() *Counter {
+	return &Counter{}
+}
+
+//Value return current value of counter
+func (r *Counter) Value() int {
+	return r.value
+}
+
+//Inc increase counter by 1
+func (r *Counter) Inc() {
+	r.mux.Lock()
+	defer r.mux.Unlock()
+
+	r.value++
 }
