@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/hotkratos/learn-go-with-test/internal/svc/players/repository"
+	"github.com/captain-corgi/learn-go-with-test/internal/svc/players/repository"
 )
 
 type (

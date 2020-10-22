@@ -1,3 +1,3 @@
-module github.com/hotkratos/learn-go-with-test
+module github.com/captain-corgi/learn-go-with-test
 
 go 1.14

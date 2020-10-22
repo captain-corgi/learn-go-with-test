@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hotkratos/learn-go-with-test/cmd/tdd/server/stubs"
+	"github.com/captain-corgi/learn-go-with-test/cmd/tdd/server/stubs"
 )
 
 func TestHandler(t *testing.T) {

@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hotkratos/learn-go-with-test/internal/svc/players/usecase/stubs"
+	"github.com/captain-corgi/learn-go-with-test/internal/svc/players/usecase/stubs"
 )
 
 func TestGETPlayer(t *testing.T) {

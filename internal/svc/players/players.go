@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/hotkratos/learn-go-with-test/internal/svc/players/repository"
-	"github.com/hotkratos/learn-go-with-test/internal/svc/players/usecase"
+	"github.com/captain-corgi/learn-go-with-test/internal/svc/players/repository"
+	"github.com/captain-corgi/learn-go-with-test/internal/svc/players/usecase"
 )
 
 const (
