@@ -1,8 +1,8 @@
 build:
-	go build -o learn-go-with-test cmd/tdd/main.go
+	go build -o player-service cmd/httpserver/main.go
 
 run:
-	./learn-go-with-test
+	./player-service
 
 clean:
-	rm learn-go-with-test
+	rm player-service
