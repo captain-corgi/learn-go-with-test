@@ -6,6 +6,7 @@ import (
 	"io"
 	"math"
 	"net/http"
+	"strings"
 )
 
 const (
@@ -245,4 +246,62 @@ func (r Dictionary) Update(word string, definition string) error {
 //Delete remove a word from dictionary
 func (r Dictionary) Delete(word string) {
 	delete(r, word)
+}
+
+//RomanNumeral describe a roman numeral with key-value
+type (
+	RomanNumeral struct {
+		Value  int
+		Symbol string
+	}
+	RomanNumeralList []RomanNumeral
+)
+
+//ValueOf return value of a roman numeral
+func (r RomanNumeralList) ValueOf(symbol string) int {
+	for _, val := range r {
+		if val.Symbol == symbol {
+			return val.Value
+		}
+	}
+	return 0
+}
+
+var (
+	allRomanNumerals = []RomanNumeral{
+		{1000, "M"},
+		{900, "CM"},
+		{500, "D"},
+		{400, "CD"},
+		{100, "C"},
+		{90, "XC"},
+		{50, "L"},
+		{40, "XL"},
+		{10, "X"},
+		{9, "IX"},
+		{5, "V"},
+		{4, "IV"},
+		{1, "I"},
+	}
+)
+
+//RomanNumerals return a roman numeral from a number
+func RomanNumerals(num int) string {
+	var rs strings.Builder
+	for _, n := range allRomanNumerals {
+		for num >= n.Value {
+			rs.WriteString(n.Symbol)
+			num -= n.Value
+		}
+	}
+	return rs.String()
+}
+
+//ConvertingToArabic return a number from a roman numeral
+func ConvertingToArabic(roman string) int {
+	total := 0
+	for range roman {
+		total++
+	}
+	return total
 }

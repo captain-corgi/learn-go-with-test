@@ -769,3 +769,109 @@ func TestGreetVN(t *testing.T) {
 		t.Errorf("got %q, want %q", got, want)
 	}
 }
+
+func TestRomanNumerals(t *testing.T) {
+	type args struct{ num int }
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{"1 gets coverted to I", args{1}, "I"},
+		{"2 gets coverted to II", args{2}, "II"},
+		{"3 gets coverted to III", args{3}, "III"},
+		{"4 gets coverted to IV", args{4}, "IV"},
+		{"5 gets coverted to V", args{5}, "V"},
+		{"6 gets coverted to VI", args{6}, "VI"},
+		{"7 gets coverted to VII", args{7}, "VII"},
+		{"8 gets coverted to VIII", args{8}, "VIII"},
+		{"9 gets coverted to IX", args{9}, "IX"},
+		{"10 gets coverted to X", args{10}, "X"},
+		{"11 gets coverted to XI", args{11}, "XI"},
+		{"12 gets coverted to XII", args{12}, "XII"},
+		{"13 gets coverted to XIII", args{13}, "XIII"},
+		{"14 gets coverted to XIV", args{14}, "XIV"},
+		{"18 gets coverted to XVIII", args{18}, "XVIII"},
+		{"20 gets coverted to XX", args{20}, "XX"},
+		{"39 gets coverted to XXXIX", args{39}, "XXXIX"},
+		{"40 gets coverted to XL", args{40}, "XL"},
+		{"47 gets coverted to XLVII", args{47}, "XLVII"},
+		{"49 gets coverted to XLIX", args{49}, "XLIX"},
+		{"50 gets coverted to L", args{50}, "L"},
+		{"90 gets coverted to XC", args{90}, "XC"},
+		{"97 gets coverted to XCVII", args{97}, "XCVII"},
+		{"98 gets coverted to XCVIII", args{98}, "XCVIII"},
+		{"99 gets coverted to XCIX", args{99}, "XCIX"},
+		{"100 gets coverted to C", args{100}, "C"},
+		{"400 gets coverted to CD", args{400}, "CD"},
+		{"500 gets coverted to D", args{500}, "D"},
+		{"900 gets coverted to CM", args{900}, "CM"},
+		{"999 gets coverted to CMXCIX", args{999}, "CMXCIX"},
+		{"1000 gets coverted to M", args{1000}, "M"},
+		{"1984 gets coverted to MCMLXXXIV", args{1984}, "MCMLXXXIV"},
+		{"3999 gets coverted to MMMCMXCIX", args{3999}, "MMMCMXCIX"},
+		{"2014 gets coverted to MMXIV", args{2014}, "MMXIV"},
+		{"1006 gets coverted to MVI", args{1006}, "MVI"},
+		{"798 gets coverted to DCCXCVIII", args{798}, "DCCXCVIII"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := RomanNumerals(tt.args.num); got != tt.want {
+				t.Errorf("got %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestConvertingToArabic(t *testing.T) {
+	type args struct{ roman string }
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{"I gets coverted to 1", args{"I"}, 1},
+		{"II gets coverted to 2", args{"II"}, 2},
+		{"III gets coverted to 3", args{"III"}, 3},
+		{"IV gets coverted to 4", args{"IV"}, 4},
+		{"V gets coverted to 5", args{"V"}, 5},
+		{"VI gets coverted to 6", args{"VI"}, 6},
+		{"VII gets coverted to 7", args{"VII"}, 7},
+		{"VIII gets coverted to 8", args{"VIII"}, 8},
+		{"IX gets coverted to 9", args{"IX"}, 9},
+		{"X gets coverted to 10", args{"X"}, 10},
+		{"XI gets coverted to 11", args{"XI"}, 11},
+		{"XII gets coverted to 12", args{"XII"}, 12},
+		{"XIII gets coverted to 13", args{"XIII"}, 13},
+		{"XIV gets coverted to 14", args{"XIV"}, 14},
+		{"XVIII gets coverted to 18", args{"XVIII"}, 18},
+		{"XX gets coverted to 20", args{"XX"}, 20},
+		{"XXXIX gets coverted to 39", args{"XXXIX"}, 39},
+		{"XL gets coverted to 40", args{"XL"}, 40},
+		{"XLVII gets coverted to 47", args{"XLVII"}, 47},
+		{"XLIX gets coverted to 49", args{"XLIX"}, 49},
+		{"L gets coverted to 50", args{"L"}, 50},
+		{"XC gets coverted to 90", args{"XC"}, 90},
+		{"XCVII gets coverted to 97", args{"XCVII"}, 97},
+		{"XCVIII gets coverted to 98", args{"XCVIII"}, 98},
+		{"XCIX gets coverted to 99", args{"XCIX"}, 99},
+		{"C gets coverted to 100", args{"C"}, 100},
+		{"CD gets coverted to 400", args{"CD"}, 400},
+		{"D gets coverted to 500", args{"D"}, 500},
+		{"CM gets coverted to 900", args{"CM"}, 900},
+		{"CMXCIX gets coverted to 999", args{"CMXCIX"}, 999},
+		{"M gets coverted to 1000", args{"M"}, 1000},
+		{"MCMLXXXIV gets coverted to 1984", args{"MCMLXXXIV"}, 1984},
+		{"MMMCMXCIX gets coverted to 3999", args{"MMMCMXCIX"}, 3999},
+		{"MMXIV gets coverted to 2014", args{"MMXIV"}, 2014},
+		{"MVI gets coverted to 1006", args{"MVI"}, 1006},
+		{"DCCXCVIII gets coverted to 798", args{"DCCXCVIII"}, 798},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ConvertingToArabic(tt.args.roman); got != tt.want {
+				t.Errorf("got %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
