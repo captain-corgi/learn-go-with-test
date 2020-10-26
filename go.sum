@@ -1,0 +1,10 @@
+github.com/captain-corgi/socat_alter v0.0.0-20201025134254-24e8e082cb9c h1:JdrVNExGhQwCBgk/JToEcq4b9nKvZ1f63fye4zG1QMw=
+github.com/captain-corgi/socat_alter v0.0.0-20201025134254-24e8e082cb9c/go.mod h1:qtasuJDUmNeGTvar2dvwH1DWrokeBArUWpscmxKPV4Q=
+github.com/google/tcpproxy v0.0.0-20200125044825-b6bb9b5b8252 h1:tAkooHvRrtO8kFB6YOPTpLQok3Hfv1DNDXdNqgi29Ao=
+github.com/google/tcpproxy v0.0.0-20200125044825-b6bb9b5b8252/go.mod h1:DavVbd41y+b7ukKDmlnPR4nGYmkWXR6vHUkjQNiHPBs=
+github.com/kataras/golog v0.1.5 h1:WbXu2rUc3yX/QB2mcNP5AjR64UlaaxkYrGMkO58T4Js=
+github.com/kataras/golog v0.1.5/go.mod h1:jOSQ+C5fUqsNSwurB/oAHq1IFSb0KI3l6GMa7xB6dZA=
+github.com/kataras/pio v0.0.10 h1:b0qtPUqOpM2O+bqa5wr2O6dN4cQNwSmFd6HQqgVae0g=
+github.com/kataras/pio v0.0.10/go.mod h1:gS3ui9xSD+lAUpbYnjOGiQyY7sUMJO+EHpiRzhtZ5no=
+golang.org/x/sys v0.0.0-20201024232916-9f70ab9862d5 h1:iCaAy5bMeEvwANu3YnJfWwI0kWAGkEa2RXPdweI/ysk=
+golang.org/x/sys v0.0.0-20201024232916-9f70ab9862d5/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
