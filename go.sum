@@ -1,10 +1,10 @@
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/aws/aws-lambda-go v1.20.0 h1:ZSweJx/Hy9BoIDXKBEh16vbHH0t0dehnF8MKpMiOWc0=
 github.com/aws/aws-lambda-go v1.20.0/go.mod h1:jJmlefzPfGnckuHdXX7/80O3BvUUi12XOkbv4w9SGLU=
-github.com/captain-corgi/go-mod-example v0.0.0-20201026102139-77e6ceff79c1 h1:2qKwRTlSxO72pF+wpMWb4ldMvkl1mraSpuCPOiINAVs=
-github.com/captain-corgi/go-mod-example v0.0.0-20201026102139-77e6ceff79c1/go.mod h1:3PiYr+qvJmwJDKA7fq8onKY8H9Ld2ONojEo2Brc6rOo=
-github.com/captain-corgi/socat_alter v0.0.0-20201025134254-24e8e082cb9c h1:JdrVNExGhQwCBgk/JToEcq4b9nKvZ1f63fye4zG1QMw=
-github.com/captain-corgi/socat_alter v0.0.0-20201025134254-24e8e082cb9c/go.mod h1:qtasuJDUmNeGTvar2dvwH1DWrokeBArUWpscmxKPV4Q=
+github.com/captain-corgi/go-mod-example v1.0.0 h1:fBLehp8bo5T+mcTBJFdcaGIbFmWcnUXRZHtvbl2Bsug=
+github.com/captain-corgi/go-mod-example v1.0.0/go.mod h1:3PiYr+qvJmwJDKA7fq8onKY8H9Ld2ONojEo2Brc6rOo=
+github.com/captain-corgi/socat_alter v1.0.0 h1:1lM/lZmWuylnoCs92r1JySJ7NN7O9sJrcCSOw8mlMP4=
+github.com/captain-corgi/socat_alter v1.0.0/go.mod h1:qtasuJDUmNeGTvar2dvwH1DWrokeBArUWpscmxKPV4Q=
 github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=
 github.com/cpuguy83/go-md2man/v2 v2.0.0 h1:EoUDS0afbrsXAZ9YQ9jdu/mZ2sXgT1/2yyNng4PGlyM=
 github.com/cpuguy83/go-md2man/v2 v2.0.0/go.mod h1:maD7wRr/U5Z6m/iR4s+kqSMx2CaBsrgA7czyZG/E6dU=
