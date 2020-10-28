@@ -248,12 +248,13 @@ func (r Dictionary) Delete(word string) {
 	delete(r, word)
 }
 
-//RomanNumeral describe a roman numeral with key-value
 type (
+	//RomanNumeral describe a roman numeral with key-value
 	RomanNumeral struct {
 		Value  int
 		Symbol string
 	}
+	//RomanNumeralList describe list of RomanNumeral
 	RomanNumeralList []RomanNumeral
 )
 
